@@ -84,14 +84,26 @@ $(document).ready(function(){
                 for(let i=1; i <= 5; i++){
                     let forecastBlock = function(i){
                         return('<div>' + '<p class="date">' + getDate(i) + '</p>' + `<img src="https://openweathermap.org/img/w/${result.list[i].weather[0].icon}.png" alt="${result.list[i].weather[0].description}" width='50' height='50'>` + `<p class="temperature">Temp: ${result.list[i].main.temp}&nbsp;°F</p>` +
-                        `<p class="humidity">Humidity: ${result.list[i].main.humidity}&nbsp;%"</p>` +
+                        `<p class="humidity">Humidity: ${result.list[i].main.humidity}&nbsp;%</p>` +
                         '</div>');
                     }
 
                     $('#forecast .days').append(forecastBlock(i));
                 }
             }});
-        }})
+
+            // error functions
+         }, error: function (xhr, ajaxOptions, throwError) {
+                if ($('#search input').val() === ''){
+                    $('#searchError').html('Must Enter City Name');
+                } else {
+                    $('#searchError').html('City Not Found');
+                }
+                // Call ends reenamble api calls
+                $('button').removeClass('wait');
+                $('button').attr('disabled', false);
+            }
+        });
     }
 
     if( localStorage.getItem("lastCitySearch")){
